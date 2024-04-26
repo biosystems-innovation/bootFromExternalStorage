@@ -9,7 +9,7 @@ _** JetPack 4.6+ releases are in the jetpack-4 branch **_
 
 **Please read the Issues section below before proceeding**
 
-Installs JetPack 5.5.0, L4T 35.5.0 on the Jetson Developer Kit
+Installs JetPack 6.2.0, L4T 36.2.0 on the Jetson Developer Kit
 
 The NVIDIA Jetson Xavier and Orins can boot directly from external storage. 
 There are four scripts here to help with this process.
@@ -86,6 +86,13 @@ If oem-config does not run on first boot, you can create a default user:
 on the host in the Linux_for_Tegra folder and reflash.
 
 ## Release Notes
+
+### April 2024
+* JetPack 6.2.0
+* L4T 36.2.0
+* Add support for Orin Nano Developer Kit
+* Tested on Orin Nano, NVMe SSD
+* Tested on x86 host running Ubuntu 20.04
 
 ### September 2023
 * JetPack 5.1.2
