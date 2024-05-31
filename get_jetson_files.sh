@@ -86,7 +86,7 @@ cd $JETSON_FOLDER
 
 # Get the 36.3.0 Tegra system
 # Check if nvidia has the files accessible:
-if [ $(curl -s -o /dev/null -w "%{http_code}" ${L4T_DRIVER_URL}) -eq 200 ]; then
+if wget --spider ${L4T_DRIVER_URL} 2>/dev/null; then
   # Get the L4T Driver Package - BSP
   wget -N ${L4T_DRIVER_URL}
   # Get the Sample Root File System (rootfs)
