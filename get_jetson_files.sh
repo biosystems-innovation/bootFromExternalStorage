@@ -10,7 +10,14 @@
 # First check to see if we're running on Ubuntu
 # Next, check the architecture to make sure it's not aarch64, not a Jetson
 
-JETSON_FOLDER=R36.3.0
+JETSON_VERSION=36.3.0
+JETSON_RELEASE_NAME=r36_release_v3.0
+JETSON_FOLDER=R$JETSON_VERSION
+JETSON_S3_BUCKET="mira-artifacts"
+L4T_DRIVER_URL=https://developer.nvidia.com/downloads/embedded/l4t/${JETSON_RELEASE_NAME}/release/jetson_linux_r${JETSON_VERSION}_aarch64.tbz2
+L4T_SAMPLE_ROOTFS_URL=https://developer.nvidia.com/downloads/embedded/l4t/${JETSON_RELEASE_NAME}/release/tegra_linux_sample-root-filesystem_r${JETSON_VERSION}_aarch64.tbz2
+L4T_DRIVER_S3_URL=s3://$JETSON_S3_BUCKET/installer/assets/jetson_linux_r${JETSON_VERSION}_aarch64.tbz2
+L4T_SAMPLE_ROOTFS_S3_URL=s3://$JETSON_S3_BUCKET/installer/assets/tegra_linux_sample-root-filesystem_r${JETSON_VERSION}_aarch64.tbz2
 
 
 function help_func
@@ -77,17 +84,25 @@ cd $JETSON_FOLDER
 
 # Made it this far, we're ready to start the downloads
 
-# Get the 36.2.0 Tegra system
-# Get the L4T Driver Package - BSP
-wget -N https://developer.nvidia.com/downloads/embedded/l4t/r36_release_v3.0/release/jetson_linux_r36.3.0_aarch64.tbz2
-# Get the Sample Root File System (rootfs)
-wget -N https://developer.nvidia.com/downloads/embedded/l4t/r36_release_v3.0/release/tegra_linux_sample-root-filesystem_r36.3.0_aarch64.tbz2
+# Get the 36.3.0 Tegra system
+# Check if nvidia has the files accessible:
+if [ $(curl -s -o /dev/null -w "%{http_code}" ${L4T_DRIVER_URL}) -eq 200 ]; then
+  # Get the L4T Driver Package - BSP
+  wget -N ${L4T_DRIVER_URL}
+  # Get the Sample Root File System (rootfs)
+  wget -N ${L4T_SAMPLE_ROOTFS_URL}
+else
+  echo "NVIDIA does not have the files available, we will get it from our S3 bucket"
+  aws s3 cp ${L4T_DRIVER_S3_URL} .
+  aws s3 cp ${L4T_SAMPLE_ROOTFS_S3_URL} .
+fi
+
 
 # Unpack the files, creating the Linux_for_Tegra folder
-sudo tar -xpvf jetson_linux_r36.3.0_aarch64.tbz2
+sudo tar -xpvf jetson_linux_r${JETSON_VERSION}_aarch64.tbz2
 
 cd Linux_for_Tegra/rootfs/
-sudo tar -xpvf ../../tegra_linux_sample-root-filesystem_r36.3.0_aarch64.tbz2
+sudo tar -xpvf ../../tegra_linux_sample-root-filesystem_r${JETSON_VERSION}_aarch64.tbz2
 cd ../..
 cd Linux_for_Tegra/
 
