@@ -79,9 +79,9 @@ cd $JETSON_FOLDER
 
 # Get the 36.2.0 Tegra system
 # Get the L4T Driver Package - BSP
-wget -N https://developer.nvidia.com/downloads/embedded/l4t/r36_release_v2.0/release/jetson_linux_r36.3.0_aarch64.tbz2
+wget -N https://developer.nvidia.com/downloads/embedded/l4t/r36_release_v3.0/release/jetson_linux_r36.3.0_aarch64.tbz2
 # Get the Sample Root File System (rootfs)
-wget -N https://developer.nvidia.com/downloads/embedded/l4t/r36_release_v2.0/release/tegra_linux_sample-root-filesystem_r36.3.0_aarch64.tbz2
+wget -N https://developer.nvidia.com/downloads/embedded/l4t/r36_release_v3.0/release/tegra_linux_sample-root-filesystem_r36.3.0_aarch64.tbz2
 
 # Unpack the files, creating the Linux_for_Tegra folder
 sudo tar -xpvf jetson_linux_r36.3.0_aarch64.tbz2
